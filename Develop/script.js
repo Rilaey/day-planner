@@ -6,6 +6,8 @@ currentDayEl.innerHTML = moment().format("dddd MMM Do YYYY");
 
 let timeOfDay = document.querySelector(".time-of-day");
 
+let currentHour = moment().format("ha");
+
 userTextInputArea = document.getElementsByClassName("text-input");
 
 let saveBtnEl1 = document.querySelector("#save-button-1");
@@ -123,14 +125,22 @@ saveBtnEl9.addEventListener("click", function() {
     localStorage.setItem("userInputEl9", userInputEl9);
 });
 
-function displayColors() {
-    if (timeOfDay == moment().format("ha")) {
-        $(userTextInputArea).css("background-color", "red")
-    } else if (timeOfDay > moment().format("ha")) {
-        $(userTextInputArea).css("background-color", "gray")
-    } else if (timeOfDay < moment().format("ha")) {
-        $(userTextInputArea).css("background-color", "green")
-    };
-};
 
-displayColors()
+let displayColors = function () {
+    let hour = $(".hour").text().trim();
+
+    let time = moment(hour, "LT");
+
+    //remove any old classes from element
+    $(".text-input").removeClass("present past future");
+
+    if (moment().isAfter(time)) {
+        $(".text-input").addClass("past");
+    } else if (moment().isBefore(time)) {
+        $(".text-input").addClass("future");
+    } else {
+        $(".text-input").addClass("present");
+    }
+}
+
+displayColors();
