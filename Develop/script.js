@@ -4,12 +4,7 @@ let currentDayEl = document.querySelector('#currentDay');
 // use moment js to display the date
 currentDayEl.innerHTML = moment().format("dddd MMM Do YYYY");
 
-let timeOfDay = document.querySelector(".time-of-day");
-
-let currentHour = moment().format("ha");
-
-userTextInputArea = document.getElementsByClassName("text-input");
-
+// assigning variables to individual save buttons
 let saveBtnEl1 = document.querySelector("#save-button-1");
 let saveBtnEl2 = document.querySelector("#save-button-2");
 let saveBtnEl3 = document.querySelector("#save-button-3");
@@ -20,6 +15,7 @@ let saveBtnEl7 = document.querySelector("#save-button-7");
 let saveBtnEl8 = document.querySelector("#save-button-8");
 let saveBtnEl9 = document.querySelector("#save-button-9");
 
+// assigning varianles to individual input boxes
 let userInputEl1 = document.querySelector("#user-form-1");
 let userInputEl2 = document.querySelector("#user-form-2");
 let userInputEl3 = document.querySelector("#user-form-3");
@@ -126,21 +122,21 @@ saveBtnEl9.addEventListener("click", function() {
 });
 
 
-let displayColors = function () {
-    let hour = $(".hour").text().trim();
-
-    let time = moment(hour, "LT");
-
-    //remove any old classes from element
-    $(".text-input").removeClass("present past future");
-
-    if (moment().isAfter(time)) {
-        $(".text-input").addClass("past");
-    } else if (moment().isBefore(time)) {
-        $(".text-input").addClass("future");
-    } else {
-        $(".text-input").addClass("present");
-    }
+function displayColors() {
+    // set time variable to military time   
+    let time = moment().format("H");
+    // looping through the data-times and comparing to
+    // the time variable which are both military times
+     for(let x = 9; x < 18; x++) {
+        let hourEl = $('.form-group').find(`[data-time=${x}]`)
+            if (time == x) {
+                hourEl.addClass("present"); // if current time do present class
+            } else if (time > x) {
+                hourEl.addClass("past"); // if past time do past class
+            } else {
+                hourEl.addClass("future") // if future time do future class
+            }
+     }
 }
 
-displayColors();
+displayColors(); // call displayColors function
